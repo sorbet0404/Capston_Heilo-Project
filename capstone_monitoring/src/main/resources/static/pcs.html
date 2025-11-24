@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HelioCast PCS 제어판</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer src="/js/pcs.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Inter', sans-serif;
+        }
+        .pcs-card {
+            position: relative;
+            background: #fff;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            border: 1px solid #ddd;
+        }
+        .pcs-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(2px);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            color: #333;
+            pointer-events: all;
+            padding: 10px;
+            text-align: center;
+        }
+        .pcs-overlay input {
+            margin-top: 8px;
+            width: 80%;
+        }
+    </style>
+</head>
+<body data-page="pcs">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+    <a class="navbar-brand d-flex align-items-center" href="/index.html">
+        <img src="/img/logo.svg" alt="HelioCast 로고" style="height: 30px; margin-right: 8px;">
+        HelioCast
+    </a>
+    <div class="ms-auto d-flex align-items-center">
+        <span id="clockDisplay" class="text-white me-3"></span>
+        <button class="btn btn-outline-light btn-sm me-2" onclick="location.href='/index.html'">Home</button>
+        <button id="toDashboard" class="btn btn-outline-light btn-sm me-2">Dashboard</button>
+        <button id="toPCS" class="btn btn-outline-light btn-sm me-2">PCS</button>
+        <button id="toLogs" class="btn btn-outline-light btn-sm me-2">Logs</button>
+        <button id="logoutBtn" class="btn btn-warning btn-sm">Logout</button>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h2 class="mb-4">PCS 모듈 제어판</h2>
+    <div class="row" id="pcsModuleGrid"></div>
+</div>
+</body>
+</html>

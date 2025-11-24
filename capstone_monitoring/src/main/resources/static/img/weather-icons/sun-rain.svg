@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+    <!-- 해 -->
+    <g transform="translate(42, 10)">
+        <circle cx="0" cy="0" r="8" fill="gold" />
+        <g stroke="orange" stroke-width="2">
+            <line x1="0" y1="-12" x2="0" y2="-20" />
+            <line x1="0" y1="12" x2="0" y2="20" />
+            <line x1="-12" y1="0" x2="-20" y2="0" />
+            <line x1="12" y1="0" x2="20" y2="0" />
+            <line x1="-9" y1="-9" x2="-14" y2="-14" />
+            <line x1="9" y1="9" x2="14" y2="14" />
+            <line x1="-9" y1="9" x2="-14" y2="14" />
+            <line x1="9" y1="-9" x2="14" y2="-14" />
+        </g>
+    </g>
+
+    <!-- 구름 -->
+    <g fill="#bbb">
+        <ellipse cx="28" cy="36" rx="14" ry="10" />
+        <ellipse cx="38" cy="34" rx="12" ry="9" />
+        <ellipse cx="48" cy="38" rx="10" ry="7" fill="#999" />
+    </g>
+
+    <!-- 비 -->
+    <g stroke="cornflowerblue" stroke-width="2" stroke-linecap="round">
+        <line x1="26" y1="48" x2="26" y2="56" />
+        <line x1="32" y1="50" x2="32" y2="58" />
+        <line x1="38" y1="48" x2="38" y2="56" />
+    </g>
+</svg>

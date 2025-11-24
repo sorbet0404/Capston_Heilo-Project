@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HelioCast 로그 기록</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- ✅ Chart.js (반드시 log.js보다 먼저 로딩) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- HelioCast JS -->
+    <script defer src="/js/log.js"></script>
+
+    <style>
+        .weather-icon {
+            width: 30px;
+            height: 30px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body data-page="log">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+    <a class="navbar-brand d-flex align-items-center" href="/index.html">
+        <img src="/img/logo.svg" alt="HelioCast 로고" style="height: 30px; margin-right: 8px;">
+        HelioCast
+    </a>
+    <div class="ms-auto d-flex align-items-center">
+        <span id="clockDisplay" class="text-white me-3"></span>
+        <button class="btn btn-outline-light btn-sm me-2" onclick="location.href='/index.html'">Home</button>
+        <button id="toDashboard" class="btn btn-outline-light btn-sm me-2">Dashboard</button>
+        <button id="toPCS" class="btn btn-outline-light btn-sm me-2">PCS</button> <!-- ✅ 추가된 PCS 버튼 -->
+        <button id="toLogs" class="btn btn-outline-light btn-sm me-2">Logs</button>
+        <button id="logoutBtn" class="btn btn-warning btn-sm">Logout</button>
+    </div>
+</nav>
+
+
+<div class="container mt-4">
+    <h2 class="mb-4">📚 기록 보기</h2>
+    <ul class="nav nav-tabs mb-3" id="logTabs">
+        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#weatherLog">일기예보</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#generationLog">실측 발전량</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#shortForecastLog">단기 예측</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#midForecastLog">중기 예측</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- 일기예보 탭 -->
+        <div class="tab-pane fade show active" id="weatherLog">
+            <h5>📅 일기예보 기록</h5>
+            <form class="log-range-form mb-3" data-type="weather">
+                <input type="date" class="start-date" required> ~
+                <input type="date" class="end-date" required>
+                <button type="submit" class="btn btn-sm btn-primary ms-2">조회</button>
+            </form>
+            <canvas id="weatherChart" height="120" class="mb-4"></canvas>
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered">
+                    <thead class="table-light">
+                    <tr><th>날짜</th><th>오전 하늘</th><th>오후 하늘</th><th>오전 강수확률</th><th>오후 강수확률</th><th>오전 기온</th><th>오후 기온</th></tr>
+                    </thead>
+                    <tbody id="weatherLogBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 실측 발전량 탭 -->
+        <div class="tab-pane fade" id="generationLog">
+            <h5>⚡ 실측 발전량 기록</h5>
+            <form class="log-range-form mb-3" data-type="measurement">
+                <input type="date" class="start-date" required> ~
+                <input type="date" class="end-date" required>
+                <button type="submit" class="btn btn-sm btn-primary ms-2">조회</button>
+            </form>
+            <!-- ✅ 차트 영역 추가 -->
+            <canvas id="generationChart" height="120" class="mb-4"></canvas>
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered">
+                    <thead class="table-light">
+                    <tr><th>시간</th><th>발전량(MWh)</th><th>누적발전량(MWh)</th><th>일사량(W/m²)</th><th>기온(℃)</th><th>풍속(m/s)</th><th>예보 일사량</th><th>예보 기온</th><th>예보 풍속</th></tr>
+                    </thead>
+                    <tbody id="measurementLogBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 단기 예측 탭 -->
+        <div class="tab-pane fade" id="shortForecastLog">
+            <h5>🔍 단기 예측 기록</h5>
+            <form class="log-range-form mb-3" data-type="arima">
+                <input type="date" class="start-date" required> ~
+                <input type="date" class="end-date" required>
+                <button type="submit" class="btn btn-sm btn-primary ms-2">조회</button>
+            </form>
+            <canvas id="arimaChart" height="120" class="mb-4"></canvas>
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered">
+                    <thead class="table-light">
+                    <tr><th>예측일</th><th>예측 발전량 (MWh)</th><th>실제 발전량</th><th>RMSE</th><th>MAE</th><th>MAPE</th></tr>
+                    </thead>
+                    <tbody id="arimaLogBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 중기 예측 탭 -->
+        <div class="tab-pane fade" id="midForecastLog">
+            <h5>📈 중기 예측 기록</h5>
+            <form class="log-range-form mb-3" data-type="sarima">
+                <input type="date" class="start-date" required> ~
+                <input type="date" class="end-date" required>
+                <button type="submit" class="btn btn-sm btn-primary ms-2">조회</button>
+            </form>
+            <canvas id="sarimaChart" height="120" class="mb-4"></canvas>
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered">
+                    <thead class="table-light">
+                    <tr><th>예측 기간</th><th>예측 발전량 (MWh)</th><th>실제 발전량</th><th>RMSE</th><th>MAE</th><th>MAPE</th></tr>
+                    </thead>
+                    <tbody id="sarimaLogBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

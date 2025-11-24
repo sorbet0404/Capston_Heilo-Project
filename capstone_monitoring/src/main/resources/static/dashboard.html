@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HelioCast 대시보드</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script defer src="/js/main.js"></script>
+  <style>
+    .weather-icon {
+      width: 36px;
+      height: 36px;
+      vertical-align: middle;
+    }
+    .weather-card {
+      margin-right: 10px;
+      flex: 1;
+    }
+    .card.small-card {
+      font-size: 0.9rem;
+      padding: 0.5rem 0.75rem;
+    }
+    .sidebar-title {
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body data-page="dashboard">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+  <a class="navbar-brand d-flex align-items-center" href="/index.html">
+    <img src="/img/logo.svg" alt="HelioCast 로고" style="height: 30px; margin-right: 8px;">
+    HelioCast
+  </a>
+  <div class="ms-auto d-flex align-items-center">
+    <span id="clockDisplay" class="text-white me-3"></span>
+    <button class="btn btn-outline-light btn-sm me-2" onclick="location.href='/index.html'">Home</button>
+    <button id="toDashboard" class="btn btn-outline-light btn-sm me-2">Dashboard</button>
+    <button id="toPCS" class="btn btn-outline-light btn-sm me-2">PCS</button> <!-- ✅ 추가된 PCS 버튼 -->
+    <button id="toLogs" class="btn btn-outline-light btn-sm me-2">Logs</button>
+    <button id="logoutBtn" class="btn btn-warning btn-sm">Logout</button>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <div class="row mb-5">
+    <!-- 실시간 발전량 그래프 -->
+    <div class="col-md-8">
+      <h2 class="mb-3">⚡ 실시간 발전량</h2>
+      <canvas id="generationChart" height="200"></canvas>
+    </div>
+
+    <!-- 우측 사이드바 -->
+    <div class="col-md-4">
+      <div class="card small-card mb-3">
+        <div class="sidebar-title">🔋 오늘 누적 발전량</div>
+        <div id="totalGeneration">-</div>
+      </div>
+      <div class="card small-card mb-3">
+        <div class="sidebar-title">💰 예상 총 수익</div>
+        <div id="estimatedProfit">-</div>
+      </div>
+      <div class="card small-card mb-3">
+        <div class="sidebar-title">⚡ 실시간 전력 송전량</div>
+        <div id="currentUsage">-</div>
+      </div>
+      <div class="card small-card mb-3">
+        <div class="sidebar-title">📌 시스템 상태</div>
+        <div id="systemStatus">-</div>
+      </div>
+      <div class="card small-card">
+        <div class="sidebar-title">📎 최신 알림</div>
+        <ul id="notificationList" class="mb-0 ps-3 small"></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 단기 예측 -->
+  <div class="row mb-5">
+    <div class="col-md-6">
+      <h2 class="mb-3">📊 단기 발전량 예측</h2>
+      <table class="table table-bordered table-sm">
+        <thead class="table-light">
+        <tr><th>예측일</th><th>예측 발전량 (MWh)</th><th>예상 수익 (KRW)</th></tr>
+        </thead>
+        <tbody id="shortTermPredictionBody"></tbody>
+      </table>
+    </div>
+
+    <!-- 중기 예측 -->
+    <div class="col-md-6">
+      <h2 class="mb-3">📈 중기 발전량 예측</h2>
+      <table class="table table-bordered table-sm">
+        <thead class="table-light">
+        <tr><th>예측 기간</th><th>예측 발전량 (MWh)</th><th>실제 발전량</th></tr>
+        </thead>
+        <tbody id="midTermPredictionBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 날씨 예보 -->
+  <div>
+    <h2 class="mb-3">🌤️ 7일 일기예보</h2>
+    <div id="weeklyWeatherCards" class="d-flex flex-wrap mb-4"></div>
+  </div>
+</div>
+
+<!-- 날씨 상세 모달 -->
+<div class="modal fade" id="weatherDetailModal" tabindex="-1" aria-labelledby="weatherModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="weatherModalTitle">날씨 상세</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+      </div>
+      <div class="modal-body">
+        <p id="weatherSummary" class="mb-3"></p>
+        <table class="table table-sm table-bordered">
+          <thead class="table-light">
+          <tr><th>시간대</th><th>기온 (℃)</th><th>하늘 상태</th><th>강수확률 (%)</th></tr>
+          </thead>
+          <tbody id="weatherDetailBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

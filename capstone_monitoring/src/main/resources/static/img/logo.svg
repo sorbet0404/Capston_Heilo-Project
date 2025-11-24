@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 64 64" fill="none">
+    <!-- 태양 중심 원 -->
+    <circle cx="32" cy="32" r="12" fill="#FDB813"/>
+
+    <!-- 태양 광선 -->
+    <g stroke="#FDB813" stroke-width="4">
+        <line x1="32" y1="4" x2="32" y2="16" />
+        <line x1="32" y1="48" x2="32" y2="60" />
+        <line x1="4" y1="32" x2="16" y2="32" />
+        <line x1="48" y1="32" x2="60" y2="32" />
+        <line x1="12" y1="12" x2="20" y2="20" />
+        <line x1="52" y1="12" x2="44" y2="20" />
+        <line x1="12" y1="52" x2="20" y2="44" />
+        <line x1="52" y1="52" x2="44" y2="44" />
+    </g>
+
+    <!-- 외곽선용 검은색 텍스트 (뒤쪽에 배치) -->
+    <text x="36" y="58"
+          text-anchor="middle"
+          font-size="10"
+          font-weight="bold"
+          fill="black"
+          stroke="black"
+          stroke-width="2"
+          font-family="Segoe UI, sans-serif">
+        HelioCast
+    </text>
+
+    <!-- 흰색 텍스트 (앞쪽에 배치) -->
+    <text x="36" y="58"
+          text-anchor="middle"
+          font-size="10"
+          font-weight="bold"
+          fill="white"
+          font-family="Segoe UI, sans-serif">
+        HelioCast
+    </text>
+</svg>
